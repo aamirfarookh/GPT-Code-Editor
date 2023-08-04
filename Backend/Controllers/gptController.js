@@ -28,7 +28,8 @@ const codeConverter = async (req, res) => {
         Target programming language (the language you want to convert the code into):
         ${language}
         
-        Now, please perform the conversion and provide the resulting code in ${language}.`,
+        Now, please perform the conversion and provide the resulting code in ${language}.
+        Provide proper indentation for the code`,
         },
       ],
     });
@@ -51,6 +52,49 @@ const codeConverter = async (req, res) => {
     res.status(500).send({ msg: error.message, error: true });
   }
 };
+
+// controller for execution of code
+const codeExecutor = async(req,res) =>{
+  try {
+    const { code } = req.body;
+    // conversationHistory.push({ role: "user", content: `Hello please provide me a good poetry on ${prompt} in ${language}` })
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      max_tokens: 1000,
+      messages: [
+        {
+          role: "user",
+          content: `You are using the code execution service.
+
+          Please provide the following information:
+          
+          Code to execute:
+          ${code}
+          
+          Now, execute the code and return the output.
+          `,
+        },
+      ],
+    });
+
+    const reply = response.data.choices[0].message.content
+      .trim()
+      .split("\n")
+      .join(" ");
+    if (reply) {
+      res.status(200).send({ data: reply, error: false });
+    } else {
+      res
+        .status(400)
+        .send({
+          msg: "Something went wrong please try again after some time",
+          error: true,
+        });
+    }
+  } catch (error) {
+    res.status(500).send({ msg: error.message, error: true });
+  }
+}
 
 // Controller for debugging the code for any possible bugs or errors
 const codeDebugger = async (req, res) => {
@@ -150,4 +194,4 @@ const codeQualityChecker = async (req, res) => {
   }
 };
 
-module.exports = { codeConverter, codeDebugger, codeQualityChecker };
+module.exports = { codeConverter, codeDebugger, codeQualityChecker,codeExecutor };
