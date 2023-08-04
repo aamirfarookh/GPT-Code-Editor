@@ -30,9 +30,7 @@ const codeConverter = async (req, res) => {
     });
 
     const reply = response.data.choices[0].message.content
-      .trim()
-      .split("\n")
-      .join(" ");
+
     if (reply) {
       res.status(200).send({ data: reply, error: false });
     } else {
@@ -73,9 +71,7 @@ const codeExecutor = async(req,res) =>{
     });
 
     const reply = response.data.choices[0].message.content
-      .trim()
-      .split("\n")
-      .join(" ");
+      
     if (reply) {
       res.status(200).send({ data: reply, error: false });
     } else {
@@ -115,9 +111,7 @@ const codeDebugger = async (req, res) => {
     });
 
     const reply = response.data.choices[0].message.content
-      .trim()
-      .split("\n")
-      .join(" ");
+      
     if (reply) {
       res.status(200).send({ data: reply, error: false });
     } else {
@@ -171,9 +165,6 @@ const codeQualityChecker = async (req, res) => {
     });
 
     const reply = response.data.choices[0].message.content
-      .trim()
-      .split("\n")
-      .join(" ");
     if (reply) {
       res.status(200).send({ data: reply, error: false });
     } else {
