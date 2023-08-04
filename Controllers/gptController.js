@@ -19,20 +19,11 @@ const codeConverter = async (req, res) => {
       messages: [
         {
           role:"system",
-          content:`You are using the code conversion service.
-          Please provide the following information:
-          
-          
-          
-          Target programming language (the language you want to convert the code into):
-          ${language}
-          
-          Now, please perform the conversion and provide the resulting code in ${language}.
-          Provide proper indentation for the code`
+          content:`You are a code converter which converts the code in ${language} language`
         }
         ,{
           role: "user",
-          content: `Input code (in the original programming language):
+          content: `
           ${code} `,
         },
       ],
